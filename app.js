@@ -70,10 +70,54 @@ function falarTexto(texto) {
     }
 }
 
+// Função para capturar nome por voz
+function capturarNomePorVoz() {
+    if ('webkitSpeechRecognition' in window) {
+        const reconhecimentoVoz = new webkitSpeechRecognition();
+        reconhecimentoVoz.lang = 'pt-BR';
+        reconhecimentoVoz.continuous = false;
+        reconhecimentoVoz.interimResults = false;
+
+        reconhecimentoVoz.onstart = function() {
+            falarTexto("Estou ouvindo. Diga o nome a ser adicionado.");
+        };
+
+        reconhecimentoVoz.onresult = function(event) {
+            const nomeReconhecido = event.results[0][0].transcript.trim();
+            document.getElementById("amigo").value = nomeReconhecido;
+            adicionarAmigo();
+        };
+
+        reconhecimentoVoz.onerror = function() {
+            falarTexto("Não consegui reconhecer o que você disse. Tente novamente.");
+        };
+
+        // Adiciona um atraso de 1 segundo antes de iniciar o reconhecimento de voz
+        setTimeout(() => {
+            reconhecimentoVoz.start();
+        }, 1000);
+    } else {
+        alert("O reconhecimento de voz não é suportado neste navegador.");
+        falarTexto("O reconhecimento de voz não é suportado neste navegador.");
+    }
+}
+
 // Adicionar evento para confirmar com Enter
 const inputAmigo = document.getElementById("amigo");
 inputAmigo.addEventListener("keydown", function(event) {
     if (event.key === "Enter") {
         adicionarAmigo();
     }
+});
+
+// Adicionar evento para mudar entre botões usando Tab
+const botoes = document.querySelectorAll("button");
+botoes.forEach((botao, index) => {
+    botao.addEventListener("keydown", function(event) {
+        if (event.key === "Tab") {
+            event.preventDefault();
+            const proximoBotao = botoes[(index + 1) % botoes.length];
+            proximoBotao.focus();
+        }
+    });
 });
