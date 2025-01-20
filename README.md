@@ -15,10 +15,8 @@ O projeto utiliza HTML, CSS e JavaScript, incluindo a Web Speech API para reconh
 
 ## Tecnologias Utilizadas
 
-- HTML
-- CSS
-- JavaScript
-- Web Speech API
+![](https://img.shields.io/badge/HTML-ff6905 ) ![](https://img.shields.io/badge/CSS-142cff )
+![](https://img.shields.io/badge/JavaScript-ffff00 ) ![](https://img.shields.io/badge/Web%20Speench%20API-00a821 )
 
 # 📁 Acesso ao projeto
 
@@ -81,4 +79,9 @@ Este projeto está licenciado sob a [MIT License](LICENSE).
 
 
 ![GitHub Org's stars](https://img.shields.io/github/stars/juliana?style=social)
+
+[![npm version](https://img.shields.io/npm/v/badge-maker.svg)](https://npmjs.org/package/badge-maker)
+[![npm license](https://img.shields.io/npm/l/badge-maker.svg)](https://npmjs.org/package/badge-maker)
+[![npm type definitions](https://img.shields.io/npm/types/badge-maker)](https://npmjs.org/package/badge-maker)
+
 
