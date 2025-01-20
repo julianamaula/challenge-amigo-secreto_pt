@@ -19,6 +19,8 @@ function adicionarAmigo() {
     falarTexto(`Nome ${nome} adicionado à lista.`);
 }
 
+
+
 // Função para atualizar a lista visível na página
 function atualizarLista() {
     const listaAmigos = document.getElementById("listaAmigos");
@@ -56,6 +58,7 @@ function sortearAmigo() {
     amigos = [];
     atualizarLista();
     falarTexto("Vamos começar um novo sorteio.");
+    
 }
 
 // Função para sintetizar texto usando Web Speech API
