@@ -5,7 +5,7 @@ Este é um projeto faz parte de um desafio do curso referente a praticando lógi
 O projeto simples de Amigo Secreto que permite adicionar nomes de amigos, sortear um nome aleatório e usar síntese de voz para anunciar o nome sorteado visando as deretrizes da acessibilidade. 
 O projeto utiliza HTML, CSS e JavaScript, incluindo a Web Speech API para reconhecimento de voz e síntese de voz.
 
-## Funcionalidades
+## Desafio
 
 - Adicionar nomes à lista de amigos.
 - Sortear um nome aleatório da lista.
