@@ -33,7 +33,7 @@ body {
 /* Banner */
 .header-banner {
     flex: 40%;
-    display: flex;
+    display: auto;
     justify-content: center;
     align-items: center;
     padding: 40px 0 0;
