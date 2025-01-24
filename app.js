@@ -174,9 +174,15 @@ function capturarNomePorVoz() {
     }
 }
 
+// Função para inicializar o jogo com uma introdução
+function iniciarIntroducao() {
+    falarTexto("Bem-vindo ao jogo. Digite o nome a ser adicionado à lista ou use o comando de voz.");
+}
+
 // Inicializar reconhecimento de voz e vozes ao carregar a página
 configurarReconhecimentoVoz();
 popularListaVozes();
+iniciarIntroducao();
 
 // Adicionar evento para confirmar com Enter
 const inputAmigo = document.getElementById("amigo");
