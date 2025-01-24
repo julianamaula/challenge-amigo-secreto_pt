@@ -50,8 +50,8 @@ body {
     flex-direction: column;
     align-items: center;
     padding: 20px;
-    width: 112%;
-    height: 100%;
+    width: auto;
+    
 }
 
 /* Títulos */
