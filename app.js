@@ -94,7 +94,6 @@ function sortearAmigo() {
 // Função para sintetizar texto usando Web Speech API
 function falarTexto(texto) {
     if (synth) {
-        // Pausar reconhecimento de voz se ativo
         if (reconhecimentoVozAtivo && reconhecimentoVoz) {
             reconhecimentoVoz.abort();
         }
@@ -112,10 +111,11 @@ function falarTexto(texto) {
         utterance.rate = 1.2;
 
         utterance.onend = function () {
-            // Retomar reconhecimento de voz após a fala
-            if (reconhecimentoVozAtivo && reconhecimentoVoz) {
-                reconhecimentoVoz.start();
-            }
+            setTimeout(() => {
+                if (reconhecimentoVozAtivo && reconhecimentoVoz) {
+                    reconhecimentoVoz.start();
+                }
+            }, 500);
         };
 
         synth.speak(utterance);
@@ -139,32 +139,49 @@ function configurarReconhecimentoVoz() {
 
         reconhecimentoVoz.onresult = function (event) {
             const nomeReconhecido = event.results[0][0].transcript.trim();
-
-            // Filtrar caso o texto capturado seja igual ao último texto falado
+        
+            console.log("Voz reconhecida:", nomeReconhecido);
+        
+            // Evita capturar a própria voz do sistema
             if (nomeReconhecido === ultimoTextoFalado) {
-                falarTexto("Evitei capturar minha própria voz. Tente novamente.");
+                console.log("Texto ignorado porque foi falado pelo sistema.");
                 return;
             }
-
+        
             document.getElementById("amigo").value = nomeReconhecido;
             adicionarAmigo();
         };
-
-        reconhecimentoVoz.onerror = function () {
-            falarTexto("Não consegui reconhecer o que você disse. Tente novamente.");
+        
+        reconhecimentoVoz.onerror = function (event) {
+            console.log("Erro no reconhecimento de voz:", event.error);
+        
+            // Se o erro for 'no-speech', não faça nada, apenas reinicie
+            if (event.error === "no-speech") {
+                console.log("Nenhuma fala detectada. Tentando novamente...");
+                return;
+            }
+        
+            // Outros erros são exibidos no console, mas sem acionar a fala
         };
-
+        
         reconhecimentoVoz.onend = function () {
-            reconhecimentoVozAtivo = false;
             console.log("Reconhecimento de voz finalizado.");
+        
+            // Reinicia a escuta automaticamente
+            setTimeout(() => {
+                if (reconhecimentoVozAtivo) {
+                    console.log("Reiniciando reconhecimento de voz...");
+                    reconhecimentoVoz.start();
+                }
+            }, 1000);
         };
+        
     } else {
-        alert("O reconhecimento de voz não é suportado neste navegador. Por favor, utilize o navegador Google Chrome ou baseado no Chromium para acessar essa funcionalidade.");
-        falarTexto("O reconhecimento de voz não é suportado neste navegador. Por favor, utilize o navegador Google Chrome ou baseado no Chromium para acessar essa funcionalidade.");
+        alert("O reconhecimento de voz não é suportado neste navegador.");
+        falarTexto("O reconhecimento de voz não é suportado neste navegador.");
     }
 }
 
-// Função para capturar nome por voz
 function capturarNomePorVoz() {
     if (reconhecimentoVoz) {
         falarTexto("Por favor, diga o nome que deseja adicionar.");
@@ -174,32 +191,16 @@ function capturarNomePorVoz() {
     }
 }
 
-// Função para inicializar o jogo com uma introdução
 function iniciarIntroducao() {
     falarTexto("Bem-vindo ao jogo. Digite o nome a ser adicionado à lista ou use o comando de voz.");
 }
 
-// Inicializar reconhecimento de voz e vozes ao carregar a página
 configurarReconhecimentoVoz();
 popularListaVozes();
 iniciarIntroducao();
 
-// Adicionar evento para confirmar com Enter
-const inputAmigo = document.getElementById("amigo");
-inputAmigo.addEventListener("keydown", function (event) {
-    if (event.key === "Enter") {
-        adicionarAmigo();
+setTimeout(() => {
+    if (reconhecimentoVoz) {
+        reconhecimentoVoz.start();
     }
-});
-
-// Adicionar evento para mudar entre botões usando Tab
-const botoes = document.querySelectorAll("button");
-botoes.forEach((botao, index) => {
-    botao.addEventListener("keydown", function (event) {
-        if (event.key === "Tab") {
-            event.preventDefault();
-            const proximoBotao = botoes[(index + 1) % botoes.length];
-            proximoBotao.focus();
-        }
-    });
-});
+}, 1500);
