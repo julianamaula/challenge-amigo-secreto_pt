@@ -173,7 +173,7 @@ ul {
     background-color: var(--color-button-hover);
 }
 
-@media (max-width: 553px) {
+@media (max-width: 300px) {
     .main-title {
         font-size: 1.5rem;
         text-align: center;
