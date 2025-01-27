@@ -78,7 +78,7 @@ Se você quiser contribuir para este projeto, sinta-se à vontade para abrir uma
 Este projeto está licenciado sob a [MIT License](LICENSE).
 
 
-![GitHub Org's stars](https://img.shields.io/github/stars/juliana?style=social)
+![GitHub Org's stars](https://img.shields.io/github/stars/julianamaula?style=social)
 
 ![](https://img.shields.io/badge/LICENÇA-MIT-blue) ![](https://img.shields.io/badge/npm-v4.1.0-00a821) 
 
