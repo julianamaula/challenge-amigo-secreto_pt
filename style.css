@@ -169,9 +169,9 @@ ul {
     background-color: var(--color-button-hover);
 }
 
-@media (max-width: 553px) {
+@media (max-width: 435px) {
     .main-title {
-        font-size: 24px;
+        font-size: 20px;
         text-align: center;
     }
 }
