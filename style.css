@@ -34,7 +34,7 @@ body {
 /* Banner */
 .header-banner {
     flex: 40%;
-    display: flex;
+    display: auto;
     justify-content: center;
     align-items: center;
     padding: 40px 0 0;
@@ -55,20 +55,16 @@ body {
 
 /* Títulos */
 .main-title {
-    font-size: 5vw;
+    font-size: 48px;
     font-family: "Merriweather", serif;
     font-weight: 900;
     font-style: italic;
     color: var(--color-white);
-    max-width: 90%;
-    display: block;
-    margin: 0 auto;
-    padding: 0 0 0 200px;
 }
 
 .section-title {
     font-family: "Inter", serif;
-    font-size: 4vw;
+    font-size: 36px;
     font-weight: 700;
     color: var(--color-primary);
     margin: 10px 0;
@@ -171,17 +167,4 @@ ul {
 
 .button-draw:hover {
     background-color: var(--color-button-hover);
-}
-
-@media (max-width: 300px) {
-    .main-title {
-        font-size: 1.5rem;
-        text-align: center;
-    }
-
-
-    
-    .section-title {
-        font-size: 28px;
-    }
 }
