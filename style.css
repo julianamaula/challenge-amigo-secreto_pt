@@ -34,10 +34,10 @@ body {
 /* Banner */
 .header-banner {
     flex: 40%;
-    display: auto;
+    display: flex;
     justify-content: center;
     align-items: center;
-    padding: 40px 0 0;
+    padding: 0 0 0 80px;
 }
 
 /* Seção de entrada */
@@ -167,4 +167,11 @@ ul {
 
 .button-draw:hover {
     background-color: var(--color-button-hover);
+}
+
+@media (max-width: 553px) {
+    .main-title {
+        font-size: 24px;
+        text-align: center;
+    }
 }
