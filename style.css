@@ -1,4 +1,4 @@
-:root {
+:root { 
     --color-primary: #4B69FD;
     --color-secondary: #FFF9EB;
     --color-tertiary: #C4C4C4;
@@ -37,7 +37,14 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 0 0 0 100px;
+    padding: 0;
+    text-align: center;
+}
+
+/* Imagem do banner responsiva */
+.header-banner img {
+    max-width: 100%;
+    height: auto;
 }
 
 /* Seção de entrada */
@@ -55,16 +62,19 @@ body {
 
 /* Títulos */
 .main-title {
-    font-size: 48px;
+    font-size: clamp(24px, 6vw, 48px);
     font-family: "Merriweather", serif;
     font-weight: 900;
     font-style: italic;
     color: var(--color-white);
+    text-align: center;
+    max-width: 90%;
+    word-wrap: break-word;
 }
 
 .section-title {
     font-family: "Inter", serif;
-    font-size: 36px;
+    font-size: clamp(20px, 5vw, 36px);
     font-weight: 700;
     color: var(--color-primary);
     margin: 10px 0;
@@ -120,13 +130,12 @@ button {
     background-color: var(--color-tertiary);
     color: var(--color-text);
     border-radius: 0 25px 25px 0;
-    
 }
 
-.button-voice{
+.button-voice {
     background-color: var(--color-white);
     color: var(--color-voice);
-    border-radius: 25px 25px 25px 25px;
+    border-radius: 25px;
 }
 
 .button-add:hover {
@@ -169,9 +178,17 @@ ul {
     background-color: var(--color-button-hover);
 }
 
+/* Ajustes para telas menores */
+@media (max-width: 768px) {
+    .header-banner {
+        flex-direction: column;
+        padding: 0;
+        text-align: center;
+    }
+}
+
 @media (max-width: 435px) {
     .main-title {
-        font-size: 20px;
-        text-align: center;
+        font-size: clamp(20px, 6vw, 36px);
     }
 }
