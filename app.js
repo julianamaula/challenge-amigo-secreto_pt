@@ -6,30 +6,26 @@ let reconhecimentoVozAtivo = false; // Flag para indicar se o reconhecimento de 
 let synth = window.speechSynthesis; // Instância global de síntese de voz
 let voices = []; // Lista de vozes disponíveis
 
-// Função para popular a lista de vozes disponíveis para síntese de fala
+// Função para lista de vozes disponíveis para síntese de fala
 function popularListaVozes() {
     voices = synth.getVoices();
     const voiceSelect = document.getElementById("voiceSelect");
-    
     if (voiceSelect) {
         voiceSelect.innerHTML = ""; // Limpa a lista de vozes existentes
-
         voices.forEach((voice) => {
             const option = document.createElement("option");
             option.textContent = `${voice.name} (${voice.lang})`;
-
             if (voice.default) {
                 option.textContent += " -- PADRÃO";
             }
-
             option.setAttribute("data-lang", voice.lang);
-            option.setAttribute("data-name", voice.name);
+            option.setAttribute("nome-dados", voice.name);
             voiceSelect.appendChild(option);
         });
     }
 }
 
-// Atualizar lista de vozes quando disponível
+// Atualizar lista de vozes quando disponíveis
 if (speechSynthesis.onvoiceschanged !== undefined) {
     speechSynthesis.onvoiceschanged = popularListaVozes;
 }
@@ -38,13 +34,11 @@ if (speechSynthesis.onvoiceschanged !== undefined) {
 function adicionarAmigo() {
     const inputAmigo = document.getElementById("amigo");
     const nome = inputAmigo.value.trim();
-
     if (nome === "") {
         alert("Por favor, insira um nome válido.");
         falarTexto("Por favor, insira um nome válido.");
         return;
     }
-
     amigos.push(nome);
     atualizarLista();
     inputAmigo.value = ""; // Limpa o campo de texto após adicionar
@@ -55,8 +49,7 @@ function adicionarAmigo() {
 // Função para atualizar a lista visível na página
 function atualizarLista() {
     const listaAmigos = document.getElementById("listaAmigos");
-    listaAmigos.innerHTML = ""; // Limpa a lista antes de atualizá-la
-
+    listaAmigos.innerHTML = ""; // Limpe a lista antes de atualizar
     amigos.forEach((amigo) => {
         const li = document.createElement("li");
         li.textContent = amigo;
@@ -64,28 +57,22 @@ function atualizarLista() {
     });
 }
 
-// Função para sortear um nome aleatório e usar síntese de voz
+// Função para classificar um nome aleatório e usar propriedades de voz
 function sortearAmigo() {
     if (amigos.length === 0) {
-        alert("A lista está vazia. Adicione pelo menos um nome para sortear.");
-        falarTexto("A lista está vazia. Adicione pelo menos um nome para sortear.");
+        alert("A lista está vazia. Adicione pelo menos um nome para classificar.");
+        falarTexto("A lista está vazia. Adicione pelo menos um nome para classificar.");
         return;
     }
-
     const indiceSorteado = Math.floor(Math.random() * amigos.length);
     const amigoSorteado = amigos[indiceSorteado];
-
     const resultado = document.getElementById("resultado");
     resultado.innerHTML = ""; // Limpa o resultado anterior
-
     const li = document.createElement("li");
     li.textContent = `Amigo sorteado: ${amigoSorteado}`;
     resultado.appendChild(li);
-
     const texto = `Amigo sorteado: ${amigoSorteado}`;
-    falarTexto(texto);
-
-    // Limpar a lista de amigos após o sorteio
+    falarTexto(texto); // Limpar a lista de amigos após o sorteio
     amigos = [];
     atualizarLista();
     falarTexto("Vamos começar um novo sorteio.");
@@ -98,27 +85,22 @@ function falarTexto(texto) {
         if (reconhecimentoVozAtivo && reconhecimentoVoz) {
             reconhecimentoVoz.abort();
         }
-
         ultimoTextoFalado = texto; // Armazena o texto que será falado
-        const utterance = new SpeechSynthesisUtterance(texto);
+        const enunciado = new SpeechSynthesisUtterance(texto);
         const voiceSelect = document.getElementById("voiceSelect");
-
         if (voiceSelect && voiceSelect.selectedOptions.length > 0) {
-            const selectedOption = voiceSelect.selectedOptions[0].getAttribute("data-name");
-            utterance.voice = voices.find((voice) => voice.name === selectedOption);
+            const selectedOption = voiceSelect.selectedOptions[0].getAttribute("nome-dados");
+            enunciado.voice = voices.find((voz) => voz.name === selectedOption);
         }
-
-        utterance.lang = 'pt-BR';
-        utterance.rate = 1.2;
-
-        utterance.onend = function () {
+        enunciado.lang = 'pt-BR';
+        enunciado.rate = 1.2;
+        enunciado.onend = function () {
             // Retomar reconhecimento de voz após a fala
             if (reconhecimentoVozAtivo && reconhecimentoVoz) {
                 reconhecimentoVoz.start();
             }
         };
-
-        synth.speak(utterance);
+        synth.speak(enunciado);
     } else {
         console.log("Web Speech API não suportada neste navegador.");
     }
@@ -131,30 +113,24 @@ function configurarReconhecimentoVoz() {
         reconhecimentoVoz.lang = 'pt-BR';
         reconhecimentoVoz.continuous = false;
         reconhecimentoVoz.interimResults = false;
-
-        reconhecimentoVoz.onstart = function () {
+        reconhecimentoVoz.onstart = function() {
             reconhecimentoVozAtivo = true;
             console.log("Reconhecimento de voz iniciado.");
         };
-
         reconhecimentoVoz.onresult = function (event) {
             const nomeReconhecido = event.results[0][0].transcript.trim();
-
             // Filtrar caso o texto capturado seja igual ao último texto falado
             if (nomeReconhecido === ultimoTextoFalado) {
                 falarTexto("Evitei capturar minha própria voz. Tente novamente.");
                 return;
             }
-
             document.getElementById("amigo").value = nomeReconhecido;
             adicionarAmigo();
         };
-
         reconhecimentoVoz.onerror = function () {
             falarTexto("Não consegui reconhecer o que você disse. Tente novamente.");
         };
-
-        reconhecimentoVoz.onend = function () {
+        reconhecimentoVoz.onend = function() {
             reconhecimentoVozAtivo = false;
             console.log("Reconhecimento de voz finalizado.");
         };
@@ -186,13 +162,13 @@ iniciarIntroducao();
 
 // Adicionar evento para confirmar com Enter
 const inputAmigo = document.getElementById("amigo");
-inputAmigo.addEventListener("keydown", function (event) {
+inputAmigo.addEventListener("keydown", function(event) {
     if (event.key === "Enter") {
         adicionarAmigo();
     }
 });
 
-// Adicionar evento para mudar entre botões usando Tab
+// Adicionar evento para alterar entre botões usando Tab
 const botoes = document.querySelectorAll("button");
 botoes.forEach((botao, index) => {
     botao.addEventListener("keydown", function (event) {
@@ -202,4 +178,11 @@ botoes.forEach((botao, index) => {
             proximoBotao.focus();
         }
     });
+});
+
+// Adicionar evento ao botão de comando de voz
+const botaoComandoVoz = document.getElementById("botaoComandoVoz");
+botaoComandoVoz.addEventListener("click", function() {
+    capturarNomePorVoz();
+    falarTexto("Botão de comando de voz clicado. Por favor, diga o nome.");
 });
