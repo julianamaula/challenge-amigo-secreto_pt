@@ -29,14 +29,6 @@ function popularListaVozes() {
     }
 }
 
-// Função para inicializar o jogo com uma introdução que funcione no celular
-function iniciarIntroducao() {
-    setTimeout(() => {
-        falarTexto("Bem-vindo ao jogo. Digite o nome a ser adicionado à lista ou use o comando de voz.");
-    }, 1000);
-}
-
-
 // Atualizar lista de vozes quando disponível
 if (speechSynthesis.onvoiceschanged !== undefined) {
     speechSynthesis.onvoiceschanged = popularListaVozes;
@@ -132,27 +124,6 @@ function falarTexto(texto) {
     }
 }
 
-// Função para capturar nome por voz com feedback visual
-function capturarNomePorVoz() {
-    const botaoVoz = document.getElementById("botaoVoz");
-    if (reconhecimentoVoz) {
-        botaoVoz.classList.add("ativo"); // Adiciona classe para feedback visual
-        falarTexto("Por favor, diga o nome que deseja adicionar.");
-        reconhecimentoVoz.start();
-    } else {
-        alert("O reconhecimento de voz não está configurado corretamente.");
-    }
-}
-
-// Adicionar evento para remover a classe do botão quando a voz terminar
-if (reconhecimentoVoz) {
-    reconhecimentoVoz.onend = function () {
-        document.getElementById("botaoVoz").classList.remove("ativo");
-    };
-}
-
-
-
 // Função para configurar o reconhecimento de voz
 function configurarReconhecimentoVoz() {
     if ('webkitSpeechRecognition' in window) {
@@ -203,7 +174,10 @@ function capturarNomePorVoz() {
     }
 }
 
-
+// Função para inicializar o jogo com uma introdução
+function iniciarIntroducao() {
+    falarTexto("Bem-vindo ao jogo. Digite o nome a ser adicionado à lista ou use o comando de voz.");
+}
 
 // Inicializar reconhecimento de voz e vozes ao carregar a página
 configurarReconhecimentoVoz();
