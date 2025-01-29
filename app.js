@@ -29,6 +29,14 @@ function popularListaVozes() {
     }
 }
 
+// Função para inicializar o jogo com uma introdução que funcione no celular
+function iniciarIntroducao() {
+    setTimeout(() => {
+        falarTexto("Bem-vindo ao jogo. Digite o nome a ser adicionado à lista ou use o comando de voz.");
+    }, 1000);
+}
+
+
 // Atualizar lista de vozes quando disponível
 if (speechSynthesis.onvoiceschanged !== undefined) {
     speechSynthesis.onvoiceschanged = popularListaVozes;
@@ -143,12 +151,6 @@ if (reconhecimentoVoz) {
     };
 }
 
-// Função para inicializar o jogo com uma introdução que funcione no celular
-function iniciarIntroducao() {
-    setTimeout(() => {
-        falarTexto("Bem-vindo ao jogo. Digite o nome a ser adicionado à lista ou use o comando de voz.");
-    }, 1000);
-}
 
 
 // Função para configurar o reconhecimento de voz
